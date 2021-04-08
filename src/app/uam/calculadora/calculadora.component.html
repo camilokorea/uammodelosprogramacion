@@ -4,33 +4,54 @@
     <form fxLayout="column" fxFlex="100" novalidate>
       <div fxLayout="column">
         <mat-form-field>
-          <mat-label>Digite Numero</mat-label>
-          <input #numero_I_input matInput placeholder="numero" (input)="ValorACambia(numero_I_input.value)" />
+          <mat-label>Digite N&uacute;mero</mat-label>
+          <input
+            #numero_I_input
+            matInput
+            placeholder="numero"
+            (input)="ValorACambia(numero_I_input.value)"
+            autocomplete="off"
+            [(ngModel)]="ValorA"
+            name="ValorA"
+          />
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Digite Otro Numero</mat-label>
-          <input #numero_II_input matInput placeholder="numero" (input)="ValorBCambia(numero_II_input.value)" />
+          <mat-label>Digite Otro N&uacute;mero</mat-label>
+          <input
+            #numero_II_input
+            matInput
+            placeholder="numero"
+            (input)="ValorBCambia(numero_II_input.value)"
+            autocomplete="off"
+            [(ngModel)]="ValorB"
+            name="ValorB"
+          />
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutGap="10px">
         <div fxLayout="column" fxFlex="50" fxLayoutGap="10px">
-          <button mat-raised-button color="primary" (click)="Suma()" type="button">Suma (+)</button>
-          <button mat-raised-button color="primary" (click)="Multiplicacion()" type="button">Multiplicar (x)</button>
-          <button mat-raised-button color="primary" type="button">Borrar Operaci&oacute;n</button>
+          <button mat-raised-button color="primary" (click)="ChequeoDatos('+')" type="button">Suma (+)</button>
+          <button mat-raised-button color="primary" (click)="ChequeoDatos('x')" type="button">Multiplicar (x)</button>
+          <button mat-raised-button color="primary" type="button" (click)="LimpiarOperacion()">
+            Borrar Operaci&oacute;n
+          </button>
         </div>
         <div fxLayout="column" fxFlex="50" fxLayoutGap="10px">
-          <button mat-raised-button color="primary" (click)="Resta()" type="button">Resta (-)</button>
-          <button mat-raised-button color="primary" (click)="Division()" type="button">Division (÷)</button>
-          <button mat-raised-button color="primary" type="button">Borrar Datos</button>
+          <button mat-raised-button color="primary" (click)="ChequeoDatos('-')" type="button">Resta (-)</button>
+          <button mat-raised-button color="primary" (click)="ChequeoDatos('÷')" type="button">Division (÷)</button>
+          <button mat-raised-button color="primary" type="button" (click)="LimpiarBitacora()">Borrar Datos</button>
         </div>
       </div>
     </form>
     <div fxLayout="column" fxFlex="100">
       <h2>Bit&aacute;cora</h2>
       <mat-list>
-        <mat-list-item> Pepper </mat-list-item>
-        <mat-list-item> Salt </mat-list-item>
-        <mat-list-item> Paprika </mat-list-item>
+        <mat-list-item
+          *ngFor="let BitacoraItem of Bitacora"
+          [ngClass]="{ error: BitacoraItem.Error, valido: !BitacoraItem.Error }"
+          >{{ BitacoraItem.ValorA }} {{ BitacoraItem.Operador }} {{ BitacoraItem.ValorB }} =
+          {{ BitacoraItem.Resultado }}</mat-list-item
+        >
       </mat-list>
     </div>
   </mat-card>

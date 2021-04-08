@@ -5,6 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from '@shared';
 import { MaterialModule } from '@app/material.module';
 import { Shell } from '@app/shell/shell.service';
+import { FormsModule } from '@angular/forms';
 
 import { RegexComponent } from '../regex/regex.component';
 import { CalculadoraComponent } from '../calculadora/calculadora.component';
@@ -18,7 +19,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [CalculadoraComponent, RegexComponent],
-  imports: [CommonModule, FlexLayoutModule, SharedModule, MaterialModule, RouterModule.forChild(routes)],
+  imports: [FormsModule, CommonModule, FlexLayoutModule, SharedModule, MaterialModule, RouterModule.forChild(routes)],
   exports: [RouterModule, RegexComponent, CalculadoraComponent],
   providers: [],
 })

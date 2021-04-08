@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Bitacoralog } from './bitacoralog.model';
 
 @Component({
   selector: 'app-calculadora',
@@ -6,10 +7,15 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./calculadora.component.scss'],
 })
 export class CalculadoraComponent implements OnInit {
-  ValorA: any;
-  ValorB: any;
-  RegexNumero = new RegExp('^d*(.d+)?$');
-  RegexLiteral = new RegExp('^w*W*$');
+  @Input() ValorA: any = '';
+  @Input() ValorB: any = '';
+
+  @Output() ValorAChange = new EventEmitter<any>();
+  @Output() ValorBChange = new EventEmitter<any>();
+
+  RegexNumero = /^\d*(.\d+)?$/;
+  RegexLiteral = /^\w*\W*$/;
+  Bitacora: Bitacoralog[] = [];
 
   constructor() {}
 
@@ -23,32 +29,50 @@ export class CalculadoraComponent implements OnInit {
     this.ValorB = pValor;
   }
 
-  ValidarNumero() {}
+  ChequeoDatos(pOperador: string): void {
+    let BitacoraLog: Bitacoralog = new Bitacoralog();
+    let Validacion: boolean = this.RegexNumero.test(this.ValorA) && this.RegexNumero.test(this.ValorB);
 
-  ValidarLiteral() {}
+    if (!this.RegexNumero.test(this.ValorA)) BitacoraLog.ValorA = 'Valor no es numerico (' + this.ValorA + ')';
+    else BitacoraLog.ValorA = this.ValorA;
 
-  ChequeoDatos() {
-    console.log(typeof this.ValorA);
-    console.log(typeof this.ValorB);
+    if (!this.RegexNumero.test(this.ValorB)) BitacoraLog.ValorB = 'Valor no es numerico (' + this.ValorB + ')';
+    else BitacoraLog.ValorB = this.ValorB;
+
+    BitacoraLog.Operador = pOperador;
+
+    if (!Validacion) {
+      BitacoraLog.Resultado = 'ERROR';
+      BitacoraLog.Error = true;
+    } else {
+      switch (pOperador) {
+        case '+':
+          BitacoraLog.Resultado = String(Number(this.ValorA) + Number(this.ValorB));
+          break;
+        case '-':
+          BitacoraLog.Resultado = String(Number(this.ValorA) - Number(this.ValorB));
+          break;
+        case 'x':
+          BitacoraLog.Resultado = String(Number(this.ValorA) * Number(this.ValorB));
+          break;
+        case '÷':
+          BitacoraLog.Resultado = String(Number(this.ValorA) / Number(this.ValorB));
+          break;
+      }
+
+      this.ValorA = BitacoraLog.Resultado;
+    }
+    this.Bitacora.push(BitacoraLog);
   }
 
-  Multiplicacion() {
-    this.ChequeoDatos();
+  LimpiarOperacion() {
+    this.ValorA = '';
+    this.ValorB = '';
   }
 
-  Division() {
-    this.ChequeoDatos();
+  LimpiarBitacora() {
+    this.Bitacora = [];
+    this.ValorA = '';
+    this.ValorB = '';
   }
-
-  Suma() {
-    this.ChequeoDatos();
-  }
-
-  Resta() {
-    this.ChequeoDatos();
-  }
-
-  LimpiarOperacion() {}
-
-  LimpiarBitacora() {}
 }
