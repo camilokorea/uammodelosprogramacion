@@ -8,20 +8,17 @@
       ngClass.gt-sm="has-border"
     >
       <mat-toolbar color="primary">
-        <span translate>APP_NAME</span>
-        <div fxFlex></div>
-        <div></div>
-        <app-language-selector icon="true"></app-language-selector>
+        <span translate>Proyecto</span>
       </mat-toolbar>
       <nav>
         <mat-list>
           <mat-divider></mat-divider>
-          <a mat-list-item routerLink="/home" routerLinkActive="active" (click)="isMobile && sidenav.close()">
-            <span translate>Home</span>
+          <a mat-list-item routerLink="/calculadora" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span>Calculadora</span>
           </a>
           <mat-divider></mat-divider>
-          <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
-            <span translate>About</span>
+          <a mat-list-item routerLink="/regex" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span>Regex</span>
           </a>
           <mat-divider></mat-divider>
         </mat-list>
@@ -32,7 +29,7 @@
         <button class="menu-button" mat-icon-button (click)="sidenav.toggle()" fxHide.gt-sm>
           <mat-icon>menu</mat-icon>
         </button>
-        <span>{{ title }}</span>
+        <span>Modelos de Programaci&oacute;n</span>
       </mat-toolbar>
       <router-outlet></router-outlet>
     </mat-sidenav-content>

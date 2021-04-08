@@ -1,1 +1,37 @@
-<p>calculadora works!</p>
+<div class="container">
+  <mat-card fxLayout="column">
+    <mat-card-title>Calculadora</mat-card-title>
+    <form fxLayout="column" fxFlex="100" novalidate>
+      <div fxLayout="column">
+        <mat-form-field>
+          <mat-label>Digite Numero</mat-label>
+          <input #numero_I_input matInput placeholder="numero" (input)="ValorACambia(numero_I_input.value)" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Digite Otro Numero</mat-label>
+          <input #numero_II_input matInput placeholder="numero" (input)="ValorBCambia(numero_II_input.value)" />
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <div fxLayout="column" fxFlex="50" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="Suma()" type="button">Suma (+)</button>
+          <button mat-raised-button color="primary" (click)="Multiplicacion()" type="button">Multiplicar (x)</button>
+          <button mat-raised-button color="primary" type="button">Borrar Operaci&oacute;n</button>
+        </div>
+        <div fxLayout="column" fxFlex="50" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="Resta()" type="button">Resta (-)</button>
+          <button mat-raised-button color="primary" (click)="Division()" type="button">Division (÷)</button>
+          <button mat-raised-button color="primary" type="button">Borrar Datos</button>
+        </div>
+      </div>
+    </form>
+    <div fxLayout="column" fxFlex="100">
+      <h2>Bit&aacute;cora</h2>
+      <mat-list>
+        <mat-list-item> Pepper </mat-list-item>
+        <mat-list-item> Salt </mat-list-item>
+        <mat-list-item> Paprika </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-card>
+</div>

@@ -13,8 +13,7 @@ import { ShellModule } from './shell/shell.module';
 import { AboutModule } from './about/about.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { CalculadoraComponent } from './uam/calculadora/calculadora.component';
-import { RegexComponent } from './uam/regex/regex.component';
+import { UammoduleModule } from './uam/uammodule/uammodule.module';
 
 @NgModule({
   imports: [
@@ -29,9 +28,10 @@ import { RegexComponent } from './uam/regex/regex.component';
     ShellModule,
     HomeModule,
     AboutModule,
+    UammoduleModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent, CalculadoraComponent, RegexComponent],
+  declarations: [AppComponent],
   providers: [],
   bootstrap: [AppComponent],
 })
