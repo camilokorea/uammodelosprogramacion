@@ -13,8 +13,7 @@ export class CalculadoraComponent implements OnInit {
   @Output() ValorAChange = new EventEmitter<any>();
   @Output() ValorBChange = new EventEmitter<any>();
 
-  RegexNumero = /^\d*(.\d+)?$/;
-  RegexLiteral = /^\w*\W*$/;
+  RegexNumero = /^\d+(.\d+)?$/;
   Bitacora: Bitacoralog[] = [];
 
   constructor() {}
@@ -66,8 +65,14 @@ export class CalculadoraComponent implements OnInit {
   }
 
   LimpiarOperacion() {
-    this.ValorA = '';
     this.ValorB = '';
+    this.Bitacora.splice(-1, 1);
+
+    if (this.Bitacora.length > 0)
+      if (!this.Bitacora[this.Bitacora.length - 1].Error)
+        this.ValorA = this.Bitacora[this.Bitacora.length - 1].Resultado;
+      else this.ValorA = '';
+    else this.ValorA = '';
   }
 
   LimpiarBitacora() {
