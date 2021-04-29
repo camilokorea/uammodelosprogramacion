@@ -45,6 +45,12 @@
     </form>
     <div fxLayout="column" fxFlex="100">
       <h2>Bit&aacute;cora</h2>
+      <p>El archivo de bitacora esta siendo salvado en {{ bitacoraArchivoRuta }}</p>
+      <p style="color: green" *ngIf="archivoSalvado">Bitacora salvada en archivo</p>
+      <p style="color: red" *ngIf="errorArchivoSalvado">Hubo un error salvando el archivode bitacora</p>
+      <p style="color: red" *ngIf="errorLeyendoBitacora">
+        No es posible cargar el archivo de bitacora, posiblemente aun no este creada
+      </p>
       <mat-list>
         <mat-list-item
           *ngFor="let BitacoraItem of Bitacora"

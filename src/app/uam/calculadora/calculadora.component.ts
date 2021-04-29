@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Bitacoralog } from './bitacoralog.model';
-
 @Component({
   selector: 'app-calculadora',
   templateUrl: './calculadora.component.html',
@@ -13,12 +12,21 @@ export class CalculadoraComponent implements OnInit {
   @Output() ValorAChange = new EventEmitter<any>();
   @Output() ValorBChange = new EventEmitter<any>();
 
-  RegexNumero = /^\d+(.\d+)?$/;
+  RegexNumero = /^\d+(\.\d+)?$/;
   Bitacora: Bitacoralog[] = [];
+  FS = window.require('fs');
+  archivoSalvado: boolean = false;
+  errorArchivoSalvado: boolean = false;
+  errorLeyendoBitacora: boolean = false;
+  bitacoraArchivoRuta: string = '';
+  PATH = window.require('path');
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.bitacoraArchivoRuta = this.PATH.resolve(__dirname) + '\\' + 'bitacora.txt';
+    this.CargarBitacora();
+  }
 
   ValorACambia(pValor: any) {
     this.ValorA = pValor;
@@ -29,6 +37,10 @@ export class CalculadoraComponent implements OnInit {
   }
 
   ChequeoDatos(pOperador: string): void {
+    this.errorLeyendoBitacora = false;
+    this.archivoSalvado = false;
+    this.errorArchivoSalvado = false;
+
     let BitacoraLog: Bitacoralog = new Bitacoralog();
     let Validacion: boolean = this.RegexNumero.test(this.ValorA) && this.RegexNumero.test(this.ValorB);
 
@@ -62,6 +74,18 @@ export class CalculadoraComponent implements OnInit {
       this.ValorA = BitacoraLog.Resultado;
     }
     this.Bitacora.push(BitacoraLog);
+
+    this.SalvarBitacora();
+  }
+
+  SalvarBitacora() {
+    try {
+      this.FS.writeFileSync(this.bitacoraArchivoRuta, window.JSON.stringify(this.Bitacora));
+      this.archivoSalvado = true;
+    } catch (exObject) {
+      this.archivoSalvado = false;
+      this.errorArchivoSalvado = true;
+    }
   }
 
   LimpiarOperacion() {
@@ -73,11 +97,31 @@ export class CalculadoraComponent implements OnInit {
         this.ValorA = this.Bitacora[this.Bitacora.length - 1].Resultado;
       else this.ValorA = '';
     else this.ValorA = '';
+
+    this.SalvarBitacora();
   }
 
   LimpiarBitacora() {
     this.Bitacora = [];
     this.ValorA = '';
     this.ValorB = '';
+
+    this.SalvarBitacora();
+  }
+
+  CargarBitacora() {
+    this.errorLeyendoBitacora = false;
+
+    try {
+      this.Bitacora = window.JSON.parse(this.FS.readFileSync(this.bitacoraArchivoRuta));
+
+      if (this.Bitacora.length > 0)
+        if (!this.Bitacora[this.Bitacora.length - 1].Error)
+          this.ValorA = this.Bitacora[this.Bitacora.length - 1].Resultado;
+        else this.ValorA = '';
+      else this.ValorA = '';
+    } catch (exceptionOj) {
+      this.errorLeyendoBitacora = true;
+    }
   }
 }
