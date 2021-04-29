@@ -1,1 +1,38 @@
-<p>regex works!</p>
+<div class="container">
+  <mat-card fxLayout="column">
+    <mat-card-title>Validador REGEX</mat-card-title>
+    <form fxLayout="column" fxFlex="100" novalidate>
+      <mat-card fxLayout="column">
+        <mat-radio-group fxFlex="100" [(ngModel)]="opcionValidacion">
+          <mat-radio-button [value]="'email'">Correo Electr&oacute;nico</mat-radio-button>
+          <mat-radio-button [value]="'fecha'">Fecha (dd/MM/yyyy)</mat-radio-button>
+          <mat-radio-button [value]="'id'">Identificaci&oacute;n Nacional</mat-radio-button>
+        </mat-radio-group>
+      </mat-card>
+      <div fxLayout="column" fxLayoutGap="10px">
+        <h2>Opci&oacute;n seleccionada: {{ opcionValidacion }}</h2>
+        <mat-divider></mat-divider>
+        <form fxLayout="column" fxFlex="100" novalidate style="padding: 10px 0px 10px 0px">
+          <mat-form-field>
+            <mat-label>Digite Expresi&oacute;n</mat-label>
+            <input
+              #valor_a_validar
+              matInput
+              placeholder="Expresion"
+              (input)="CambioDeExpresion(valor_a_validar.value)"
+              autocomplete="off"
+              [(ngModel)]="valorValidar"
+              name="valorValidar"
+            />
+          </mat-form-field>
+          <mat-divider></mat-divider>
+          <button mat-raised-button color="primary" (click)="ValidarExpresion()" type="button">
+            Validar Expresi&oacute;n
+          </button>
+        </form>
+        <p *ngIf="validado && !valido" style="color: red">Valor Inv&aacute;lido</p>
+        <p *ngIf="validado && valido" style="color: green">Valor V&aacute;lido</p>
+      </div>
+    </form>
+  </mat-card>
+</div>
